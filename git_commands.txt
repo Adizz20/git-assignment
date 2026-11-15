@@ -1,0 +1,87 @@
+git_commands.txt - Git commands used in the assignment
+=======================================================
+
+SETUP
+-----
+mkdir git-assignment
+    Creates the project folder.
+cd git-assignment
+    Moves into the project folder.
+git init -b main
+    Initializes an empty Git repository with "main" as the default branch.
+git status
+    Shows which files are untracked, modified or staged.
+ls
+    Lists the files in the folder (index.html, about.html).
+
+STEP 2 - WORKFLOW
+-----------------
+git add .
+    Stages all new/changed files for the next commit.
+git commit -m "Initial commit: add index.html and about.html"
+    Records the initial state of the project as the first commit.
+git diff
+    Shows the unstaged changes made to index.html.
+git add index.html
+    Stages the modified index.html.
+git commit -m "Update index.html with welcome paragraph"
+    Creates the second commit containing the index.html change.
+git branch feature
+    Creates a new branch named "feature".
+git switch feature
+    Switches the working directory to the "feature" branch.
+git branch
+    Lists branches; the current one is marked with *.
+git add about.html
+    Stages the modified about.html.
+git commit -m "feature: add description to about.html"
+    Commits the change on the feature branch.
+git switch main
+    Switches back to the main branch.
+git merge feature --no-ff -m "Merge branch feature into main"
+    Merges feature into main; --no-ff forces a merge commit so branch activity stays visible.
+git log --oneline --graph --all
+    Displays the full commit history as a graph, including the merge.
+
+STEP 3 - .gitignore
+-------------------
+printf '*.log\ntemp/\n' > .gitignore
+    Creates .gitignore that ignores all .log files and the temp/ folder.
+cat .gitignore
+    Prints the contents of .gitignore to verify it.
+git status --short
+    Shows that temp/ and debug.log are not listed (ignored); only .gitignore is new.
+git add .gitignore
+    Stages the .gitignore file.
+git commit -m "Add .gitignore to ignore *.log files and temp/ folder"
+    Commits the .gitignore file.
+
+STEP 4 - UNDO
+-------------
+echo '<!-- temporary footer -->' >> index.html
+    Appends a temporary comment to index.html (the change to be undone).
+git add index.html
+    Stages the temporary change.
+git commit -m "Add temporary footer comment (to be undone)"
+    Makes the additional commit.
+git log --oneline
+    Shows the history including the additional commit.
+git reset --hard HEAD~1
+    Undoes the last commit and discards its changes from the working directory.
+git log --oneline
+    Confirms the extra commit is gone from the history.
+git status
+    Confirms the working tree is clean after the undo.
+tail -n 3 index.html
+    Confirms the temporary footer line is no longer in the file.
+
+STEP 5 - GITHUB
+---------------
+git remote add origin https://github.com/<your-username>/git-assignment.git
+    Connects the local repository to the empty public GitHub repository.
+git remote -v
+    Verifies the remote URL.
+git push -u origin main
+    Pushes the main branch (with all its history) to GitHub and sets upstream tracking.
+git push origin feature
+    Pushes the feature branch to GitHub so the branch activity is visible there too.
